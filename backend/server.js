@@ -38,11 +38,11 @@ app.post("/send-email", upload.single("abstract"), async (req, res) => {
         <p><b>Project Title:</b> ${projectTitle || "Not Provided"}</p>
 
         <p><b>Message:</b></p>
-        <p>
-            ${(message || "")
-            .replace("<b>Curious About:<b>", "<br/><br/> <b>Curious About:</b>")
-            .replace(/\n/g, "<br/>")}
-        </p>
+        <p>${message || "Not Provided"}</p>
+        <br>
+
+        <p><b>Curious About:</b></p>
+        <p>${curious || "Not Provided"}</p>
         `,
       attachments: req.file
         ? [

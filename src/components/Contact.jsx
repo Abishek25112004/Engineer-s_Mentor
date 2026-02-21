@@ -124,7 +124,7 @@ const Contact = () => {
 
             <div className="space-y-1.5">
               <Label htmlFor="contact">
-                Email  <span className="text-destructive">*</span>
+                Email or Phone <span className="text-destructive">*</span>
               </Label>
               <Input id="contact" required placeholder="email@example.com" onChange={handleChange} />
             </div>

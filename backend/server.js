@@ -23,27 +23,26 @@ const transporter = nodemailer.createTransport({
 // ✅ Email Route
 app.post("/send-email", upload.single("abstract"), async (req, res) => {
   try {
-    const { name, email, phone, projectTitle, message } = req.body;
+    const { name, email, phone, projectTitle, message, curious } = req.body;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: "engineersmentorservices@gmail.com",
       subject: "New Project Inquiry",
-        html: `
-        <h2>New Submission</h2>
+      html: `
+  <h2>New Submission</h2>
 
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Phone:</b> ${phone || "Not Provided"}</p>
-        <p><b>Project Title:</b> ${projectTitle || "Not Provided"}</p>
+  <p><b>Name:</b> ${name}</p>
+  <p><b>Email:</b> ${email}</p>
+  <p><b>Phone:</b> ${phone || "Not Provided"}</p>
+  <p><b>Project Title:</b> ${projectTitle || "Not Provided"}</p>
 
-        <p><b>Message:</b></p>
-        <p>${message || "Not Provided"}</p>
-        <br>
+  <p><b>Message:</b></p>
+  <p>${(message || "Not Provided").replace(/\n/g, "<br/>")}</p>
 
-        <p><b>Curious About:</b></p>
-        <p>${curious || "Not Provided"}</p>
-        `,
+  <p><b>Curious About:</b></p>
+  <p>${curious || "Not Provided"}</p>
+`,
       attachments: req.file
         ? [
             {

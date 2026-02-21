@@ -47,10 +47,8 @@ const Contact = () => {
       form.append("phone", formData.phone);
       form.append("projectTitle", formData.title);
 
-      form.append(
-        "message",
-        `${formData.message}\n\nCurious About:\n${formData.curious || "Not Provided"}`
-      );
+      form.append("message", formData.message);
+      form.append("curious", formData.curious);
 
       // ✅ Attach actual file
       if (fileRef.current?.files[0]) {

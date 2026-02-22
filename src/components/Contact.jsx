@@ -55,7 +55,7 @@ const Contact = () => {
         form.append("abstract", fileRef.current.files[0]);
       }
 
-      const res = await fetch("http://localhost:5000/send-email", {
+      const res = await fetch(" https://engineer-s-mentor-1.onrender.com", {
         method: "POST",
         body: form, // 🚨 NO headers when using FormData
       });

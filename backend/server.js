@@ -5,7 +5,10 @@ const multer = require("multer");
 const { Resend } = require("resend");
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://engineers-mentor.vercel.app",
+  methods: ["GET", "POST"],
+}));
 app.use(express.json());
 
 const upload = multer({ dest: "uploads/" });

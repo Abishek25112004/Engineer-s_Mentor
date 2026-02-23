@@ -6,7 +6,7 @@ const { Resend } = require("resend");
 
 const app = express();
 app.use(cors({
-  origin: "https://engineers-mentor.vercel.app",
+  origin: "https://engineer-s-mentor.vercel.app",
   methods: ["GET", "POST"],
 }));
 app.use(express.json());

@@ -31,7 +31,7 @@ const Hero = () => {
 
           <p className="text-4xl md:text-5xl lg:text-xl font-bold leading-tight mb-6  ">Contact No : 8072287692, 9080420738</p>
 
-          <p className="text-4xl md:text-5xl lg:text-xl font-bold leading-tight mb-6  ">Email : engineersmentorservices@gmail.com</p>
+          <p className="text-3xl md:text-5xl lg:text-xl font-bold leading-tight mb-6  ">Email : engineersmentorservices@gmail.com</p>
 
           <div className="flex flex-wrap gap-4">
             <Button

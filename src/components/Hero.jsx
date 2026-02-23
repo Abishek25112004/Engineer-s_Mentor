@@ -29,7 +29,7 @@ const Hero = () => {
             viva preparation, I've got you covered.
           </p>
 
-          <p className="sm-text-2xl md:text-5xl lg:text-xl font-bold leading-tight mb-6  ">Contact No : 8072287692, 9080420738</p>
+          <p className="sm-text-2xl md:text-5xl lg:text-xl font-bold leading-tight mb-6  ">Contact No : <br/>8072287692, 9080420738</p>
 
           <p className="sm-text-2xl md:text-5xl lg:text-xl font-bold leading-tight mb-6  ">Email : engineersmentorservices@gmail.com</p>
 

@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
 const fs = require("fs");
-const axios = require("axios");
 const { Resend } = require("resend");
 
 const app = express();
@@ -18,9 +17,6 @@ app.use(express.json());
 const upload = multer({ dest: "uploads/" });
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-/* GOOGLE APPS SCRIPT WEB APP URL */
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyUju0G37aDl5cJb5Bq8wJ6qGZ0Hshsv01zOJi_qSr6fHK_A1zyjGBmsDMUgI8bCRdS/exec";
 
 app.post("/send-email", upload.single("abstract"), async (req, res) => {
   try {
@@ -38,7 +34,6 @@ app.post("/send-email", upload.single("abstract"), async (req, res) => {
       });
     }
 
-    /* SEND EMAIL */
     await resend.emails.send({
       from: "onboarding@resend.dev",
       to: "engineersmentorservices@gmail.com",
@@ -60,26 +55,9 @@ app.post("/send-email", upload.single("abstract"), async (req, res) => {
       attachments: attachments,
     });
 
-    /* SEND DATA TO GOOGLE SHEETS */
-    await axios.post(GOOGLE_SCRIPT_URL, {
-      name,
-      email,
-      phone,
-      projectTitle,
-      message,
-      curious,
-      fileName: req.file ? req.file.originalname : "No File",
-      date: new Date()
-    });
-
-    /* DELETE TEMP FILE */
-    if (req.file) {
-      fs.unlinkSync(req.file.path);
-    }
-
     res.json({
       success: true,
-      message: "Email sent and data stored in Google Sheets ✅",
+      message: "Email sent successfully ✅",
     });
 
   } catch (err) {
@@ -93,4 +71,4 @@ app.post("/send-email", upload.single("abstract"), async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log("Server running on port " + PORT));
+app.listen(PORT, () => console.log("Server running"));

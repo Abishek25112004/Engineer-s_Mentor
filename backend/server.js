@@ -20,7 +20,7 @@ const upload = multer({ dest: "uploads/" });
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 /* GOOGLE APPS SCRIPT WEB APP URL */
-const GOOGLE_SCRIPT_URL = "PASTE_YOUR_SCRIPT_URL_HERE";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyUju0G37aDl5cJb5Bq8wJ6qGZ0Hshsv01zOJi_qSr6fHK_A1zyjGBmsDMUgI8bCRdS/exec";
 
 app.post("/send-email", upload.single("abstract"), async (req, res) => {
   try {
@@ -61,7 +61,7 @@ app.post("/send-email", upload.single("abstract"), async (req, res) => {
     });
 
     /* SEND DATA TO GOOGLE SHEETS */
-    await axios.post("https://script.google.com/macros/s/AKfycbyUju0G37aDl5cJb5Bq8wJ6qGZ0Hshsv01zOJi_qSr6fHK_A1zyjGBmsDMUgI8bCRdS/exec", {
+    await axios.post(GOOGLE_SCRIPT_URL, {
       name,
       email,
       phone,

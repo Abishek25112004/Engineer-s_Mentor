@@ -61,7 +61,7 @@ app.post("/send-email", upload.single("abstract"), async (req, res) => {
     });
 
     /* SEND DATA TO GOOGLE SHEETS */
-    await axios.post("https://script.google.com/macros/s/AKfycbxreQx2JexW_qNqmjQYDpB7zrnS6ZxzR1m3ybuPX8GPcQZxCN5FO6T1BwcsicbhF83j/exec", {
+    await axios.post("https://script.google.com/macros/s/AKfycbzWfBeKnTlNzuSTU7gtgmpq4BohTZ6gOPF7CIxyNf06UHMpFSCitUgguP2BG_tJzRo_/exec", {
       name,
       email,
       phone,

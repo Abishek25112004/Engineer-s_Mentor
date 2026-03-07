@@ -61,7 +61,8 @@ app.post("/send-email", upload.single("abstract"), async (req, res) => {
     });
 
     /* SEND DATA TO GOOGLE SHEETS */
-    await axios.post("https://script.google.com/macros/s/AKfycbzWfBeKnTlNzuSTU7gtgmpq4BohTZ6gOPF7CIxyNf06UHMpFSCitUgguP2BG_tJzRo_/exec", {
+    await axios.post("https://script.google.com/macros/s/AKfycbzWfBeKnTlNzuSTU7gtgmpq4BohTZ6gOPF7CIxyNf06UHMpFSCitUgguP2BG_tJzRo_/exec", console.log("yes updated in sheets"), {
+      
       name,
       email,
       phone,
@@ -70,6 +71,8 @@ app.post("/send-email", upload.single("abstract"), async (req, res) => {
       curious,
       fileName: req.file ? req.file.originalname : "No File",
       date: new Date()
+
+      
     });
 
     /* DELETE TEMP FILE */

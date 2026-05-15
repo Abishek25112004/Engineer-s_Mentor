@@ -1,30 +1,51 @@
+import { Phone, Mail, MapPin, Heart } from "lucide-react";
+
 const Footer = () => {
   return (
-    <footer className="hero-gradient text-primary-foreground/60 py-10">
-      <div className="container mx-auto px-4 text-center">
-        <p
-          className="text-primary-foreground font-bold text-lg mb-1"
-          style={{ fontFamily: "'DM Serif Display', serif" }}
-        >
-          Engineer's Mentor
-        </p>
+    <footer className="relative overflow-hidden">
+      {/* Top gradient border */}
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
-        <p className="text-sm mb-4">
-          Expert project guidance for final year engineering students.
-        </p>
+      <div className="hero-gradient py-14">
+        <div className="container mx-auto px-4">
+          {/* Main footer content */}
+          <div className="text-center max-w-2xl mx-auto">
+            {/* Brand */}
+            <h3
+              className="text-2xl font-bold gradient-text mb-3"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
+              Engineer's Mentor
+            </h3>
 
-         <p className="text-primary-foreground mb-4">
-          Contact No : 8072287692, 9080420738
-        </p>
+            <p className="text-muted-foreground text-sm mb-8">
+              Expert project guidance for final year engineering students.
+            </p>
 
-        <p className="text-primary-foreground mb-4">
-          Email : engineersmentorservices@gmail.com
-        </p>
+            {/* Contact row */}
+            <div className="flex flex-wrap justify-center gap-6 mb-8">
+              <div className="flex items-center gap-2 text-sm text-foreground/70 hover:text-primary transition-colors duration-300">
+                <Phone size={15} className="text-primary/60" />
+                <span>8072287692, 9080420738</span>
+              </div>
 
-        <p className="text-xs">
-          &copy; {new Date().getFullYear()} Engineer's Mentor. All rights reserved.
-        </p>
+              <div className="flex items-center gap-2 text-sm text-foreground/70 hover:text-primary transition-colors duration-300">
+                <Mail size={15} className="text-primary/60" />
+                <span>engineersmentorservices@gmail.com</span>
+              </div>
+            </div>
 
+            {/* Divider */}
+            <div className="h-[1px] bg-gradient-to-r from-transparent via-white/[0.06] to-transparent mb-6" />
+
+            {/* Copyright */}
+            <p className="text-xs text-muted-foreground/60 flex items-center justify-center gap-1">
+              &copy; {new Date().getFullYear()} Engineer's Mentor. Made with
+              <Heart size={12} className="text-primary/50 inline" />
+              All rights reserved.
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   );

@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useEffect, useRef, useState } from "react";
 
 const faqs = [
   {
@@ -28,37 +29,58 @@ const faqs = [
   },
 ];
 
-const FAQ = () => (
-  <section id="faq" className="py-20 md:py-28 section-gradient">
-    <div className="container mx-auto px-4 max-w-3xl">
-      <div className="text-center mb-14">
-        <p className="text-sm font-semibold text-accent uppercase tracking-widest mb-2">
-          FAQ
-        </p>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-          Frequently Asked Questions
-        </h2>
+const FAQ = () => {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section id="faq" className="py-24 md:py-32 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-secondary/[0.03] rounded-full blur-[80px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 max-w-3xl" ref={ref}>
+        {/* Header */}
+        <div className={`text-center mb-16 ${visible ? "animate-fade-up" : "opacity-0"}`}>
+          <p className="text-sm font-semibold text-primary uppercase tracking-[0.2em] mb-3">
+            FAQ
+          </p>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Frequently Asked <span className="gradient-text">Questions</span>
+          </h2>
+        </div>
+
+        <Accordion type="single" collapsible className="space-y-4">
+          {faqs.map((f, i) => (
+            <AccordionItem
+              key={i}
+              value={`faq-${i}`}
+              className={`glass-card rounded-2xl border-white/[0.06] px-6 overflow-hidden hover:!transform-none ${
+                visible ? "animate-fade-up" : "opacity-0"
+              }`}
+              style={{ animationDelay: `${(i + 1) * 100}ms` }}
+            >
+              <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-5 hover:text-primary transition-colors duration-300">
+                {f.q}
+              </AccordionTrigger>
+
+              <AccordionContent className="text-muted-foreground pb-5 leading-relaxed">
+                {f.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
-
-      <Accordion type="single" collapsible className="space-y-3">
-        {faqs.map((f, i) => (
-          <AccordionItem
-            key={i}
-            value={`faq-${i}`}
-            className="bg-card rounded-xl border border-border/50 px-6 card-shadow"
-          >
-            <AccordionTrigger className="text-left font-medium text-foreground hover:no-underline py-5">
-              {f.q}
-            </AccordionTrigger>
-
-            <AccordionContent className="text-muted-foreground pb-5 leading-relaxed">
-              {f.a}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default FAQ;

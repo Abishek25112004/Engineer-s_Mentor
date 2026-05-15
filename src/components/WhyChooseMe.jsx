@@ -1,109 +1,135 @@
-import { CheckCircle2, Sparkles } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { CheckCircle2, Sparkles, Users, Trophy, Clock, Shield } from "lucide-react";
+import { useRef, useEffect } from "react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import mentorImg from "@/assets/mentor.png";
+import studentsImg from "@/assets/students.png";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const reasons = [
-  {
-    title: "Real Working Projects",
-    desc: "Every project is fully functional, tested, and ready for demonstration — no half-baked solutions.",
-  },
-  {
-    title: "Customizable Solutions",
-    desc: "Your project is tailored to your university's specific requirements and your personal understanding.",
-  },
-  {
-    title: "Detailed Explanation & Support",
-    desc: "I walk you through the entire codebase so you understand every line before your viva.",
-  },
-  {
-    title: "Student-Friendly Approach",
-    desc: "Clear communication, flexible timelines, and patience — because I understand student life.",
-  },
-  {
-    title: "Affordable Guidance",
-    desc: "Quality mentoring at prices that respect a student's budget. No hidden charges.",
-  },
-  {
-    title: "Confidential & Reliable",
-    desc: "Your project details stay between us. Timely delivery guaranteed.",
-  },
+  { icon: Trophy, title: "Real Working Projects", desc: "Fully functional, tested, and ready for demonstration — no half-baked solutions." },
+  { icon: Users, title: "Customizable Solutions", desc: "Tailored to your university's specific requirements and your personal understanding." },
+  { icon: CheckCircle2, title: "Detailed Explanation", desc: "Complete codebase walkthrough so you understand every line before your viva." },
+  { icon: Clock, title: "Student-Friendly", desc: "Clear communication, flexible timelines, and patience — because I understand student life." },
+  { icon: Shield, title: "Affordable & Reliable", desc: "Quality mentoring at student-friendly prices. Confidential and timely delivery." },
+];
+
+const stats = [
+  { value: "500+", label: "Projects Delivered" },
+  { value: "98%", label: "Success Rate" },
+  { value: "4+", label: "Years Experience" },
+  { value: "24h", label: "Response Time" },
 ];
 
 const WhyChooseMe = () => {
-  const [visible, setVisible] = useState(false);
-  const ref = useRef(null);
+  const sectionRef = useRef(null);
+  const statsRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useScrollReveal(sectionRef, ".reveal", { y: 50, stagger: 0.1 });
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
+    if (!imageRef.current) return;
+
+    // Parallax on the images
+    gsap.to(imageRef.current, {
+      y: -50,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
   }, []);
 
   return (
-    <section
-      id="why-us"
-      className="py-24 md:py-32 relative overflow-hidden"
-    >
-      {/* Background effects */}
+    <section id="why-us" className="py-28 md:py-36 relative overflow-hidden" ref={sectionRef}>
+      {/* Background */}
       <div className="absolute inset-0 hero-gradient" />
       <div className="absolute inset-0 grid-pattern" />
-      <div className="orb orb-cyan w-[350px] h-[350px] top-10 -right-32 opacity-10" />
-      <div className="orb orb-violet w-[250px] h-[250px] bottom-10 -left-20 opacity-10" />
+      <div className="orb orb-cyan w-[400px] h-[400px] top-10 -right-40 opacity-8" />
+      <div className="orb orb-violet w-[300px] h-[300px] bottom-10 -left-24 opacity-8" />
 
-      <div className="container mx-auto px-4 relative z-10" ref={ref}>
+      <div className="container mx-auto px-4 md:px-8 relative z-10">
         {/* Header */}
-        <div className={`text-center max-w-2xl mx-auto mb-16 ${visible ? "animate-fade-up" : "opacity-0"}`}>
-          <div className="inline-flex items-center gap-2 text-primary mb-3">
-            <Sparkles size={16} className="animate-pulse" />
-            <p className="text-sm font-semibold uppercase tracking-[0.2em]">
-              Why Choose Me
-            </p>
+        <div className="reveal text-center max-w-2xl mx-auto mb-20">
+          <div className="inline-flex items-center gap-2 text-[#00d4ff] mb-4">
+            <Sparkles size={16} style={{ animation: "glow-pulse 3s ease-in-out infinite" }} />
+            <p className="text-sm font-semibold uppercase tracking-[0.25em]">Why Choose Me</p>
           </div>
-
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-5">
             Built for Students, <br className="hidden sm:block" />
             <span className="gradient-text">by an Expert</span>
           </h2>
-
           <p className="text-muted-foreground text-lg">
             I focus on helping you learn and succeed — not just delivering a project.
           </p>
         </div>
 
-        {/* Reason Cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {reasons.map((r, i) => (
-            <div
-              key={r.title}
-              className={`group glass-card rounded-2xl p-6 relative overflow-hidden ${
-                visible ? "animate-fade-up" : "opacity-0"
-              }`}
-              style={{ animationDelay: `${(i + 1) * 100}ms` }}
-            >
-              {/* Accent bar */}
-              <div className="absolute top-0 left-0 w-[3px] h-full bg-gradient-to-b from-primary via-secondary to-primary/20 opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Two-column: Image + Reasons */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
+          {/* Left: Images */}
+          <div className="relative hidden lg:block" ref={imageRef}>
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-[#7c3aed]/[0.05]">
+              <img
+                src={mentorImg}
+                alt="Expert mentor"
+                className="w-full h-auto rounded-2xl object-cover"
+                style={{ maxHeight: "480px" }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050a18] via-transparent to-transparent opacity-50" />
+              <div className="absolute inset-0 rounded-2xl border border-white/[0.05]" />
+            </div>
 
-              <div className="flex gap-4 pl-2">
-                <CheckCircle2
-                  size={22}
-                  className="text-primary mt-0.5 shrink-0 group-hover:icon-glow transition-all duration-300"
-                />
+            {/* Smaller overlapping image */}
+            <div className="absolute -bottom-8 -right-8 w-48 h-48 rounded-xl overflow-hidden shadow-xl border-2 border-[#050a18]" style={{ animation: "float 7s ease-in-out infinite" }}>
+              <img
+                src={studentsImg}
+                alt="Students collaborating"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050a18]/60 to-transparent" />
+            </div>
+          </div>
 
-                <div>
-                  <h3
-                    className="font-bold text-foreground mb-1.5"
-                    style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                  >
-                    {r.title}
-                  </h3>
+          {/* Right: Reason cards */}
+          <div className="space-y-4">
+            {reasons.map((r, i) => (
+              <div
+                key={r.title}
+                className="reveal group glass-card rounded-xl p-5 relative overflow-hidden"
+                data-cursor-hover
+              >
+                {/* Left accent bar */}
+                <div className="absolute top-0 left-0 w-[3px] h-full bg-gradient-to-b from-[#00d4ff] via-[#7c3aed] to-[#00d4ff]/20 opacity-30 group-hover:opacity-100 transition-opacity duration-500" />
 
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {r.desc}
-                  </p>
+                <div className="flex gap-4 pl-3">
+                  <r.icon size={22} className="text-[#00d4ff] mt-0.5 shrink-0 group-hover:icon-glow transition-all duration-300" />
+                  <div>
+                    <h3 className="font-bold text-foreground mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                      {r.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{r.desc}</p>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Stats row */}
+        <div className="section-line mb-12" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8" ref={statsRef}>
+          {stats.map((s, i) => (
+            <div key={s.label} className="reveal text-center">
+              <p className="text-3xl md:text-4xl font-bold gradient-text mb-2" style={{ animation: "counter-glow 4s ease-in-out infinite", fontFamily: "'Space Grotesk', sans-serif" }}>
+                {s.value}
+              </p>
+              <p className="text-sm text-muted-foreground">{s.label}</p>
             </div>
           ))}
         </div>

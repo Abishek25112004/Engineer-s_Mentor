@@ -4,7 +4,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const faqs = [
   {
@@ -30,29 +31,18 @@ const faqs = [
 ];
 
 const FAQ = () => {
-  const [visible, setVisible] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  const sectionRef = useRef(null);
+  useScrollReveal(sectionRef, ".reveal", { y: 40, stagger: 0.1 });
 
   return (
-    <section id="faq" className="py-24 md:py-32 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-secondary/[0.03] rounded-full blur-[80px] pointer-events-none" />
+    <section id="faq" className="py-28 md:py-36 relative overflow-hidden" ref={sectionRef}>
+      {/* Decorative */}
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#7c3aed]/[0.02] rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 max-w-3xl" ref={ref}>
+      <div className="container mx-auto px-4 md:px-8 max-w-3xl relative z-10">
         {/* Header */}
-        <div className={`text-center mb-16 ${visible ? "animate-fade-up" : "opacity-0"}`}>
-          <p className="text-sm font-semibold text-primary uppercase tracking-[0.2em] mb-3">
-            FAQ
-          </p>
+        <div className="reveal text-center mb-16">
+          <p className="text-sm font-semibold text-[#00d4ff] uppercase tracking-[0.25em] mb-4">FAQ</p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Frequently Asked <span className="gradient-text">Questions</span>
           </h2>
@@ -63,15 +53,12 @@ const FAQ = () => {
             <AccordionItem
               key={i}
               value={`faq-${i}`}
-              className={`glass-card rounded-2xl border-white/[0.06] px-6 overflow-hidden hover:!transform-none ${
-                visible ? "animate-fade-up" : "opacity-0"
-              }`}
-              style={{ animationDelay: `${(i + 1) * 100}ms` }}
+              className="reveal glass-card rounded-2xl border-white/[0.04] px-6 overflow-hidden hover:!transform-none"
+              data-cursor-hover
             >
-              <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-5 hover:text-primary transition-colors duration-300">
+              <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-5 hover:text-[#00d4ff] transition-colors duration-300">
                 {f.q}
               </AccordionTrigger>
-
               <AccordionContent className="text-muted-foreground pb-5 leading-relaxed">
                 {f.a}
               </AccordionContent>
